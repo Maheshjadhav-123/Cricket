@@ -1,0 +1,26 @@
+### Current CI snapshot builds
+# JBT 4.30.0.Final
+jboss.discovery.directory.url|jbosstools|4.30.0.Final=https://download.jboss.org/jbosstools/photon/snapshots/updates/discovery.central/master/jbosstools-directory.xml
+jboss.discovery.site.url|jbosstools|4.30.0.Final=https://download.jboss.org/jbosstools/photon/snapshots/updates/discovery.central/master/
+jboss.discovery.earlyaccess.site.url|jbosstools|4.30.0.Final=https://download.jboss.org/jbosstools/photon/snapshots/updates/discovery.earlyaccess/master/
+jboss.discovery.earlyaccess.list.url|jbosstools|4.30.0.Final=https://download.jboss.org/jbosstools/photon/snapshots/updates/discovery.earlyaccess/master/jbosstools-earlyaccess.properties
+jboss.central.webpage.url|jbosstools|4.30.0.Final=https://download.jboss.org/jbosstools/static/redhat-central/jbosstools-central-webpage-2.0.0-20230531.1800.zip
+jboss.fuse.extras.site.url|jbosstools|4.30.0.Final=https://download.jboss.org/jbosstools/photon/snapshots/builds/jbosstools-fuse-extras_master/latest/all/repo/
+
+### latest staging / uncommented for stage period
+# JBT 4.29.1.Final
+#jboss.discovery.directory.url|jbosstools|4.29.1.Final=https://download.jboss.org/jbosstools/photon/staging/updates/discovery.central/4.29.1.Final/jbosstools-directory.xml
+#jboss.discovery.site.url|jbosstools|4.29.1.Final=https://download.jboss.org/jbosstools/photon/staging/updates/discovery.central/4.29.1.Final/
+#jboss.discovery.earlyaccess.site.url|jbosstools|4.29.1.Final=https://download.jboss.org/jbosstools/photon/staging/updates/discovery.earlyaccess/4.27.0.Final/
+#jboss.discovery.earlyaccess.list.url|jbosstools|4.29.1.Final=https://download.jboss.org/jbosstools/photon/staging/updates/discovery.earlyaccess/4.27.0.Final/jbosstools-earlyaccess.properties
+#jboss.central.webpage.url|jbosstools|4.29.1.Final=https://download.jboss.org/jbosstools/static/redhat-central/jbosstools-central-webpage-2.0.0-20230531.1800.zip
+#jboss.fuse.extras.site.url|jbosstools|4.29.1.Final=https://download.jboss.org/jbosstools/photon/staging/updates/fuse-extras/4.29.1.Final/
+
+### latest milestone
+# JBT 4.28.0.Final
+#jboss.discovery.directory.url|jbosstools|4.28.0.Final=https://download.jboss.org/jbosstools/photon/stable/updates/discovery.earlyaccess/4.27.0.Final/jbosstools-directory.xml
+#jboss.discovery.site.url|jbosstools|4.28.0.Final=https://download.jboss.org/jbosstools/photon/stable/updates/discovery.central/4.27.0.Final
+#jboss.discovery.earlyaccess.site.url|jbosstools|4.28.0.Final=https://download.jboss.org/jbosstools/photon/development/updates/discovery.earlyaccess/4.27.0.Final/
+#jboss.discovery.earlyaccess.list.url|jbosstools|4.28.0.Final=https://download.jboss.org/jbosstools/photon/development/updates/discovery.earlyaccess/4.27.0.Final/jbosstools-earlyaccess.properties
+#jboss.central.webpage.url|jbosstools|4.28.0.Final=https://download.jboss.org/jbosstools/static/redhat-central/jbosstools-central-webpage-2.0.0-20230531.1800.zip
+#jboss.fuse.extras.site.url|jbosstools|4.28.0.Final=https://download.jboss.org/jbosstools/photon/development/updates/fuse-extras/4.28.0.Final/

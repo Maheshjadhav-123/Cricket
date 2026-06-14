@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CricketPro Enterprise — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green: #1a7a2e; --green-light: #25a83e; --green-dark: #0f4d1c;
+    --gold: #e8b84b;  --cream: #faf7f0; --dark: #111a13;
+    --white: #fff;    --danger: #c0392b; --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 50%, #1a5c2a 100%);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .login-wrapper {
+    display: grid; grid-template-columns: 1fr 1fr;
+    max-width: 900px; width: 100%;
+    background: var(--white); border-radius: var(--radius);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4); overflow: hidden;
+  }
+  @media(max-width:640px){ .login-wrapper{ grid-template-columns:1fr; } .left-panel{ display:none; } }
+  .left-panel {
+    background: linear-gradient(160deg, var(--green-dark), var(--green-light));
+    padding: 48px 36px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; color: var(--white); text-align: center;
+  }
+  .left-panel .cricket-icon { font-size: 5rem; margin-bottom: 20px; }
+  .left-panel h2 {
+    font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px;
+  }
+  .left-panel p { font-size: 0.9rem; opacity: 0.82; line-height: 1.7; }
+  .feature-list { margin-top: 28px; text-align: left; width: 100%; }
+  .feature-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.85rem; opacity: 0.88; padding: 5px 0;
+  }
+  .right-panel { padding: 48px 40px; }
+  .right-panel h1 {
+    font-family: 'Oswald', sans-serif; font-size: 1.6rem; font-weight: 700;
+    color: var(--green-dark); text-transform: uppercase; letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .right-panel .subtitle { color: #6b7d6e; font-size: 0.88rem; margin-bottom: 32px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block; font-size: 0.78rem; font-weight: 600; color: #6b7d6e;
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 7px;
+  }
+  .form-group input {
+    width: 100%; padding: 12px 15px; border: 1.5px solid #d4dcd5;
+    border-radius: 8px; font-size: 0.95rem; color: var(--dark);
+    font-family: 'Source Sans 3', sans-serif; background: #f8faf8;
+    transition: 0.2s ease; outline: none;
+  }
+  .form-group input:focus {
+    border-color: var(--green-light); background: var(--white);
+    box-shadow: 0 0 0 3px rgba(37,168,62,0.12);
+  }
+  .btn-login {
+    width: 100%; padding: 13px; background: linear-gradient(135deg, var(--green), var(--green-light));
+    color: var(--white); border: none; border-radius: 8px; font-family: 'Oswald', sans-serif;
+    font-size: 1rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; transition: 0.2s ease; margin-top: 6px;
+  }
+  .btn-login:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,122,46,0.35); }
+  .btn-login:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .alert {
+    padding: 12px 16px; border-radius: 8px; font-size: 0.88rem;
+    font-weight: 600; margin-bottom: 18px; display: none;
+  }
+  .alert-error   { background: #fdecea; color: var(--danger); border: 1px solid #f5c6c6; }
+  .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+  .register-link {
+    text-align: center; margin-top: 22px; font-size: 0.88rem; color: #6b7d6e;
+  }
+  .register-link a { color: var(--green); font-weight: 600; text-decoration: none; }
+  .register-link a:hover { text-decoration: underline; }
+  .divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 22px 0; color: #aab8ac; font-size: 0.82rem;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: #e0e8e1;
+  }
+</style>
+</head>
+<body>
+<div class="login-wrapper">
+
+  <!-- Left decorative panel -->
+  <div class="left-panel">
+    <div class="cricket-icon">🏏</div>
+    <h2>CricketPro Enterprise</h2>
+    <p>SY B.Tech Enterprise Platform<br/>Spring Boot · JPA · Sockets · JDBC</p>
+    <div class="feature-list">
+      <div class="feature-item">✅ Role-based Access (Admin / User)</div>
+      <div class="feature-item">⚡ Real-time Live Scores (CO4)</div>
+      <div class="feature-item">🔄 Async Report Generation (CO1)</div>
+      <div class="feature-item">🗄 JDBC Analytics Dashboard (CO1)</div>
+      <div class="feature-item">🔒 Session Auth + Filter (CO2)</div>
+      <div class="feature-item">🌍 SDG 3 & 11 Impact Metrics</div>
+    </div>
+  </div>
+
+  <!-- Right login form -->
+  <div class="right-panel">
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to access your dashboard</p>
+
+    <div class="alert alert-error"   id="error-msg"></div>
+    <div class="alert alert-success" id="success-msg"></div>
+
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="username" placeholder="Enter your username" autocomplete="username"/>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password"/>
+    </div>
+
+    <button class="btn-login" id="login-btn" onclick="doLogin()">🔐 Sign In</button>
+
+    <div class="divider">or</div>
+
+    <div class="register-link">
+      Don't have an account? <a href="register.html">Register here</a>
+    </div>
+    <div class="register-link" style="margin-top:8px;">
+      <small style="color:#aab8ac;">Default Admin → admin / admin123</small>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Allow Enter key to submit
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+
+  async function doLogin() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const btn      = document.getElementById('login-btn');
+    const errEl    = document.getElementById('error-msg');
+    const okEl     = document.getElementById('success-msg');
+
+    errEl.style.display = 'none';
+    okEl.style.display  = 'none';
+
+    if (!username || !password) {
+      showError('Please enter both username and password.'); return;
+    }
+
+    btn.disabled     = true;
+    btn.textContent  = 'Signing in…';
+
+    try {
+      const res  = await fetch('/api/auth/login', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        showError(data.error || 'Login failed. Check credentials.');
+      } else {
+        okEl.textContent    = '✅ ' + data.message + '. Redirecting…';
+        okEl.style.display  = 'block';
+        setTimeout(() => window.location.href = data.redirect, 800);
+      }
+    } catch (err) {
+      showError('Cannot connect to server. Is Spring Boot running on port 8082?');
+    } finally {
+      btn.disabled    = false;
+      btn.textContent = '🔐 Sign In';
+    }
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('error-msg');
+    el.textContent  = '❌ ' + msg;
+    el.style.display = 'block';
+  }
+</script>
+</body>
+</html>

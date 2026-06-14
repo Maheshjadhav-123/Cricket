@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CricketPro — Register</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green:#1a7a2e; --green-light:#25a83e; --green-dark:#0f4d1c;
+    --gold:#e8b84b; --white:#fff; --danger:#c0392b;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    font-family:'Source Sans 3',sans-serif; min-height:100vh;
+    background:linear-gradient(135deg,var(--green-dark),var(--green));
+    display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+  .card{
+    background:var(--white); border-radius:14px; padding:44px 42px;
+    width:100%; max-width:460px; box-shadow:0 20px 60px rgba(0,0,0,0.35);
+  }
+  .logo{ text-align:center; font-size:3rem; margin-bottom:6px; }
+  h1{
+    font-family:'Oswald',sans-serif; font-size:1.5rem; color:var(--green-dark);
+    text-align:center; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;
+  }
+  .subtitle{ text-align:center; color:#6b7d6e; font-size:0.85rem; margin-bottom:28px; }
+  .form-group{ margin-bottom:16px; }
+  .form-group label{
+    display:block; font-size:0.78rem; font-weight:600; color:#6b7d6e;
+    text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px;
+  }
+  .form-group input{
+    width:100%; padding:11px 14px; border:1.5px solid #d4dcd5;
+    border-radius:8px; font-size:0.95rem; background:#f8faf8;
+    font-family:'Source Sans 3',sans-serif; outline:none; transition:0.2s;
+  }
+  .form-group input:focus{
+    border-color:var(--green-light); background:var(--white);
+    box-shadow:0 0 0 3px rgba(37,168,62,0.12);
+  }
+  .btn{
+    width:100%; padding:13px; background:linear-gradient(135deg,var(--green),var(--green-light));
+    color:var(--white); border:none; border-radius:8px; font-family:'Oswald',sans-serif;
+    font-size:1rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase;
+    cursor:pointer; margin-top:6px; transition:0.2s;
+  }
+  .btn:hover{ transform:translateY(-2px); box-shadow:0 6px 20px rgba(26,122,46,0.3); }
+  .alert{
+    padding:11px 15px; border-radius:8px; font-size:0.88rem;
+    font-weight:600; margin-bottom:16px; display:none;
+  }
+  .alert-error  { background:#fdecea; color:var(--danger); border:1px solid #f5c6c6; }
+  .alert-success{ background:#d4edda; color:#155724; border:1px solid #c3e6cb; }
+  .info-box{
+    background:#fff8e1; border:1px solid #ffe082; border-radius:8px;
+    padding:12px 14px; font-size:0.83rem; color:#6d4c00; margin-bottom:20px;
+  }
+  .login-link{ text-align:center; margin-top:20px; font-size:0.88rem; color:#6b7d6e; }
+  .login-link a{ color:var(--green); font-weight:600; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">🏏</div>
+  <h1>Create Account</h1>
+  <p class="subtitle">Register for CricketPro — Admin approval required</p>
+
+  <div class="info-box">
+    ℹ️ After registration, an Admin must approve your account before you can log in.
+    This satisfies CO2 (Session / Role Management).
+  </div>
+
+  <div class="alert alert-error"   id="err"></div>
+  <div class="alert alert-success" id="ok"></div>
+
+  <div class="form-group">
+    <label>Username *</label>
+    <input type="text" id="reg-username" placeholder="Choose a username"/>
+  </div>
+  <div class="form-group">
+    <label>Email</label>
+    <input type="email" id="reg-email" placeholder="your@email.com"/>
+  </div>
+  <div class="form-group">
+    <label>Password *</label>
+    <input type="password" id="reg-password" placeholder="Min 6 characters"/>
+  </div>
+  <div class="form-group">
+    <label>Confirm Password *</label>
+    <input type="password" id="reg-confirm" placeholder="Repeat your password"/>
+  </div>
+  <div class="form-group">
+    <label>Register As</label>
+    <select id="reg-role" style="width:100%;padding:11px 14px;border:1.5px solid #d4dcd5;border-radius:8px;font-size:0.95rem;background:#f8faf8;font-family:'Source Sans 3',sans-serif;outline:none">
+      <option value="USER">👤 Viewer (View scores, matches)</option>
+      <option value="TEAM_MANAGER">👔 Team Manager (Manage your team)</option>
+    </select>
+  </div>
+
+  <button class="btn" onclick="doRegister()">📝 Register</button>
+
+  <div class="login-link">Already have an account? <a href="login.html">Sign in</a></div>
+</div>
+
+<script>
+  async function doRegister() {
+    const username = document.getElementById('reg-username').value.trim();
+    const email    = document.getElementById('reg-email').value.trim();
+    const password = document.getElementById('reg-password').value;
+    const confirm  = document.getElementById('reg-confirm').value;
+
+    document.getElementById('err').style.display = 'none';
+    document.getElementById('ok').style.display  = 'none';
+
+    if (!username || !password) { showErr('Username and password are required.'); return; }
+    if (password.length < 6)   { showErr('Password must be at least 6 characters.'); return; }
+    if (password !== confirm)  { showErr('Passwords do not match.'); return; }
+
+    try {
+      const res  = await fetch('/api/auth/register', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ username, email, password, role: document.getElementById('reg-role').value })
+      });
+      const data = await res.json();
+      if (!res.ok) { showErr(data.error); return; }
+
+      const ok = document.getElementById('ok');
+      ok.textContent  = '✅ ' + data.message;
+      ok.style.display = 'block';
+      setTimeout(() => window.location.href = 'login.html', 2500);
+
+    } catch (e) {
+      showErr('Server error. Is Spring Boot running?');
+    }
+  }
+
+  function showErr(msg) {
+    const el = document.getElementById('err');
+    el.textContent  = '❌ ' + msg;
+    el.style.display = 'block';
+  }
+</script>
+</body>
+</html>

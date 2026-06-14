@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CricketPro — User Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet"/>
+<style>
+  :root{ --green:#1a7a2e; --green-light:#25a83e; --green-dark:#0f4d1c; --gold:#e8b84b; --white:#fff; --cream:#faf7f0; --muted:#6b7d6e; --radius:10px; --shadow:0 4px 24px rgba(0,0,0,0.1); }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ font-family:'Source Sans 3',sans-serif; background:var(--cream); }
+  header{ background:linear-gradient(135deg,var(--green-dark),var(--green)); color:var(--white); padding:0; position:sticky; top:0; z-index:100; box-shadow:0 3px 18px rgba(0,0,0,0.25); }
+  .hdr-inner{ max-width:1200px; margin:0 auto; padding:14px 28px; display:flex; align-items:center; justify-content:space-between; }
+  .hdr-left{ display:flex; align-items:center; gap:12px; }
+  .hdr-left h1{ font-family:'Oswald',sans-serif; font-size:1.3rem; font-weight:700; text-transform:uppercase; }
+  .hdr-left p{ font-size:0.76rem; opacity:0.78; }
+  .hdr-right{ display:flex; align-items:center; gap:12px; }
+  .user-badge{ background:rgba(255,255,255,0.15); padding:5px 12px; border-radius:20px; font-size:0.82rem; }
+  .btn-logout{ background:rgba(255,255,255,0.12); color:var(--white); border:1px solid rgba(255,255,255,0.3); padding:7px 15px; border-radius:6px; font-family:'Oswald',sans-serif; font-size:0.82rem; cursor:pointer; text-transform:uppercase; }
+  .btn-logout:hover{ background:rgba(255,255,255,0.22); }
+  main{ max-width:1200px; margin:0 auto; padding:28px; }
+  .welcome{ background:linear-gradient(135deg,var(--green-dark),var(--green)); color:var(--white); border-radius:var(--radius); padding:28px 32px; margin-bottom:28px; display:flex; align-items:center; gap:20px; }
+  .welcome-icon{ font-size:3.5rem; }
+  .welcome h2{ font-family:'Oswald',sans-serif; font-size:1.7rem; text-transform:uppercase; margin-bottom:4px; }
+  .welcome p{ font-size:0.9rem; opacity:0.85; }
+  .stats-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:28px; }
+  @media(max-width:700px){ .stats-row{grid-template-columns:1fr 1fr;} }
+  .stat-card{ background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px 20px; display:flex; align-items:center; gap:14px; border-left:5px solid var(--green); }
+  .stat-card:nth-child(2){ border-left-color:var(--gold); }
+  .stat-card:nth-child(3){ border-left-color:#2980b9; }
+  .stat-card:nth-child(4){ border-left-color:#c0392b; }
+  .stat-icon{ font-size:1.9rem; }
+  .stat-num{ font-family:'Oswald',sans-serif; font-size:1.8rem; font-weight:700; color:var(--green-dark); line-height:1; }
+  .stat-label{ font-size:0.74rem; text-transform:uppercase; letter-spacing:0.07em; color:var(--muted); font-weight:600; }
+  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-bottom:22px; }
+  @media(max-width:768px){ .grid-2{grid-template-columns:1fr;} }
+  .card{ background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+  .card-hdr{ background:linear-gradient(90deg,var(--green-dark),var(--green)); color:var(--white); padding:13px 18px; font-family:'Oswald',sans-serif; font-size:0.95rem; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; display:flex; align-items:center; justify-content:space-between; }
+  .card-body{ padding:18px; }
+  .btn{ display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border:none; border-radius:6px; font-family:'Oswald',sans-serif; font-size:0.82rem; font-weight:600; text-transform:uppercase; cursor:pointer; transition:0.2s; }
+  .btn-sm-blue{ background:#2980b9; color:var(--white); }
+  .btn-sm-blue:hover{ background:#2471a3; }
+  table{ width:100%; border-collapse:collapse; font-size:0.86rem; }
+  thead tr{ background:linear-gradient(90deg,var(--green-dark),var(--green)); color:var(--white); }
+  thead th{ padding:10px 12px; text-align:left; font-family:'Oswald',sans-serif; font-weight:400; font-size:0.78rem; letter-spacing:0.07em; text-transform:uppercase; }
+  tbody tr{ border-bottom:1px solid #e8ede9; }
+  tbody tr:hover{ background:#f0f8f1; }
+  tbody td{ padding:10px 12px; vertical-align:middle; }
+  .empty-row td{ text-align:center; padding:24px; color:var(--muted); font-style:italic; }
+  .badge{ display:inline-block; padding:2px 9px; border-radius:20px; font-size:0.72rem; font-weight:600; text-transform:uppercase; }
+  .b-green{background:#d4edda;color:#155724;} .b-gold{background:#fff3cd;color:#856404;} .b-blue{background:#d1ecf1;color:#0c5460;} .b-red{background:#f8d7da;color:#721c24;} .b-purple{background:#e2d9f3;color:#4a235a;}
+  .live-feed{ max-height:300px; overflow-y:auto; }
+  .live-item{ padding:9px 12px; margin-bottom:8px; border-radius:7px; border-left:4px solid var(--green); background:#f8faf8; font-size:0.85rem; }
+  .live-item.WICKET{ border-left-color:#c0392b; background:#fef8f8; }
+  .live-item.SIX{ border-left-color:#8e44ad; background:#f8f0fe; }
+  .live-item.BOUNDARY{ border-left-color:var(--gold); background:#fffdf0; }
+  .live-evt-type{ font-family:'Oswald',sans-serif; font-size:0.76rem; font-weight:600; text-transform:uppercase; }
+  .socket-status{ font-size:0.8rem; padding:6px 12px; border-radius:20px; font-weight:600; }
+  .socket-connected{ background:#d4edda; color:#155724; }
+  .socket-disconnected{ background:#f8d7da; color:#721c24; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-inner">
+    <div class="hdr-left">
+      <span style="font-size:1.8rem">🏏</span>
+      <div><h1>CricketPro — User Dashboard</h1><p>Live Scores · Teams · Matches · Standings</p></div>
+    </div>
+    <div class="hdr-right">
+      <div class="user-badge">👤 <span id="username-display">User</span></div>
+      <button class="btn-logout" onclick="logout()">🚪 Logout</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="welcome">
+    <div class="welcome-icon">🏟</div>
+    <div>
+      <h2>Welcome, <span id="welcome-name">Player</span>!</h2>
+      <p>View live match scores, team rosters, and tournament standings in real-time.</p>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-icon">🛡</div><div><div class="stat-num" id="s-teams">–</div><div class="stat-label">Teams</div></div></div>
+    <div class="stat-card"><div class="stat-icon">⚔</div><div><div class="stat-num" id="s-matches">–</div><div class="stat-label">Matches</div></div></div>
+    <div class="stat-card"><div class="stat-icon">👤</div><div><div class="stat-num" id="s-players">–</div><div class="stat-label">Players</div></div></div>
+    <div class="stat-card"><div class="stat-icon">🔴</div><div><div class="stat-num" id="s-live">–</div><div class="stat-label">Live Now</div></div></div>
+  </div>
+
+  <!-- Live scores + matches grid -->
+  <div class="grid-2">
+
+    <!-- Live match selector -->
+    <div class="card">
+      <div class="card-hdr">
+        🔴 Live Score Feed
+        <span id="socket-status" class="socket-status socket-disconnected">● Polling</span>
+      </div>
+      <div class="card-body">
+        <div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;">
+          <select id="live-match-sel" onchange="selectLiveMatch()" style="flex:1;padding:9px 12px;border:1.5px solid #d4dcd5;border-radius:6px;font-size:0.9rem">
+            <option value="">-- Select Match --</option>
+          </select>
+          <button class="btn btn-sm-blue" onclick="refreshFeed()">🔄</button>
+        </div>
+        <div class="live-feed" id="live-feed">
+          <div style="text-align:center;color:var(--muted);padding:20px;font-style:italic">Select a match above to see live events</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current scores -->
+    <div class="card">
+      <div class="card-hdr">📋 Match Scores</div>
+      <div class="card-body" style="padding:0">
+        <table>
+          <thead><tr><th>Match</th><th>Team</th><th>Score</th><th>Overs</th><th>Inn</th></tr></thead>
+          <tbody id="scores-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Teams and matches -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-hdr">🛡 All Teams</div>
+      <div class="card-body" style="padding:0">
+        <table>
+          <thead><tr><th>#</th><th>Team</th><th>Coach</th><th>City</th></tr></thead>
+          <tbody id="teams-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr">⚔ Match Schedule</div>
+      <div class="card-body" style="padding:0">
+        <table>
+          <thead><tr><th>Teams</th><th>Type</th><th>Date</th><th>Status</th></tr></thead>
+          <tbody id="matches-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+let pollInterval = null;
+let currentMatchId = null;
+
+async function api(url) {
+  const r = await fetch(url, { headers:{'Content-Type':'application/json'} });
+  if (!r.ok) throw new Error('Request failed');
+  return r.json();
+}
+
+async function checkSession() {
+  try {
+    const d = await api('/api/auth/me');
+    document.getElementById('username-display').textContent = d.username;
+    document.getElementById('welcome-name').textContent     = d.username;
+    if (d.role === 'ADMIN') window.location.href = '/admin.html';
+  } catch { window.location.href = '/login.html'; }
+}
+
+async function logout() {
+  await fetch('/api/auth/logout',{method:'POST'}).catch(()=>{});
+  window.location.href = '/login.html';
+}
+
+async function loadAll() {
+  // Stats
+  try {
+    const s = await api('/api/reports/dashboard-stats');
+    document.getElementById('s-teams').textContent   = s.total_teams||0;
+    document.getElementById('s-matches').textContent = s.total_matches||0;
+    document.getElementById('s-players').textContent = s.total_players||0;
+    document.getElementById('s-live').textContent    = s.live_matches||0;
+  }catch(e){}
+
+  // Teams
+  try {
+    const teams = await api('/api/teams');
+    document.getElementById('teams-tbody').innerHTML = teams.length
+      ? teams.map((t,i)=>`<tr><td>${i+1}</td><td><strong>${t.teamName}</strong></td><td>${t.coachName||'–'}</td><td>${t.homeCity||'–'}</td></tr>`).join('')
+      : '<tr class="empty-row"><td colspan="4">No teams yet.</td></tr>';
+  }catch(e){}
+
+  // Matches
+  try {
+    const matches = await api('/api/matches');
+    document.getElementById('matches-tbody').innerHTML = matches.length
+      ? matches.map(m=>`<tr>
+          <td><strong>${m.team1?.teamName||'?'}</strong> vs <strong>${m.team2?.teamName||'?'}</strong></td>
+          <td>${m.matchType?`<span class="badge b-blue">${m.matchType}</span>`:'–'}</td>
+          <td>${m.matchDate||'–'}</td>
+          <td>${statusBadge(m.status)}</td></tr>`).join('')
+      : '<tr class="empty-row"><td colspan="4">No matches yet.</td></tr>';
+
+    // Populate live match selector
+    const sel = document.getElementById('live-match-sel');
+    sel.innerHTML = '<option value="">-- Select Match --</option>';
+    matches.forEach(m => {
+      const lbl = `${m.team1?.teamName} vs ${m.team2?.teamName}${m.matchDate?' ('+m.matchDate+')':''}`;
+      sel.appendChild(new Option(lbl, m.id));
+    });
+  }catch(e){}
+
+  // Scores
+  try {
+    const scores = await api('/api/scores');
+    document.getElementById('scores-tbody').innerHTML = scores.length
+      ? scores.map(s=>`<tr>
+          <td style="font-size:0.78rem">${s.match?.team1?.teamName||'?'} vs ${s.match?.team2?.teamName||'?'}</td>
+          <td><strong>${s.team?.teamName||'–'}</strong></td>
+          <td><strong>${s.runsScored??'–'}/${s.wicketsLost??'–'}</strong></td>
+          <td>${s.oversPlayed!=null?s.oversPlayed+' ov':'–'}</td>
+          <td><span class="badge b-purple">Inn ${s.inningNumber||'–'}</span></td></tr>`).join('')
+      : '<tr class="empty-row"><td colspan="5">No scores yet.</td></tr>';
+  }catch(e){}
+}
+
+function selectLiveMatch() {
+  currentMatchId = document.getElementById('live-match-sel').value;
+  if (pollInterval) clearInterval(pollInterval);
+  if (!currentMatchId) return;
+  refreshFeed();
+  // Poll every 5 seconds for new events
+  pollInterval = setInterval(refreshFeed, 5000);
+  document.getElementById('socket-status').textContent = '● Auto-Polling';
+  document.getElementById('socket-status').className = 'socket-status socket-connected';
+}
+
+async function refreshFeed() {
+  if (!currentMatchId) return;
+  try {
+    const events = await api(`/api/live/events/${currentMatchId}`);
+    const box = document.getElementById('live-feed');
+    if (!events.length) {
+      box.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px;font-style:italic">No live events yet for this match</div>';
+      return;
+    }
+    box.innerHTML = events.map(e=>`
+      <div class="live-item ${e.eventType||''}">
+        <span class="live-evt-type">${evtIcon(e.eventType)} ${e.eventType||'EVENT'}</span>
+        <span style="float:right;font-size:0.74rem;color:var(--muted)">${e.createdAt?.split('T')[1]?.substring(0,8)||''}</span>
+        <div style="margin-top:4px">${e.description||''}</div>
+      </div>`).join('');
+  }catch(e){}
+}
+
+function evtIcon(t){ return {BOUNDARY:'🟡',SIX:'🟣',WICKET:'🔴',OVER_COMPLETE:'✅',MATCH_START:'🏁',MATCH_END:'🏆',DRS:'📹',UPDATE:'📢'}[t]||'📌'; }
+function statusBadge(s){ const m={Scheduled:'b-gold',Live:'b-green',Completed:'b-blue',Cancelled:'b-red'}; return s?`<span class="badge ${m[s]||'b-gold'}">${s}</span>`:'–'; }
+
+window.addEventListener('DOMContentLoaded', () => { checkSession(); loadAll(); });
+</script>
+</body>
+</html>
