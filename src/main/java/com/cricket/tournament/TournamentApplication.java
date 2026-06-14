@@ -23,10 +23,10 @@ public class TournamentApplication {
 
         // CO4: Start Socket Server in a background thread
         // so it doesn't block Spring Boot startup
-        LiveScoreServer socketServer = ctx.getBean(LiveScoreServer.class);
-        Thread socketThread = new Thread(socketServer, "LiveScoreSocket-Main");
-        socketThread.setDaemon(true);   // dies when JVM exits
-        socketThread.start();
+       // LiveScoreServer socketServer = ctx.getBean(LiveScoreServer.class);
+        //Thread socketThread = new Thread(socketServer, "LiveScoreSocket-Main");
+        //socketThread.setDaemon(true);   // dies when JVM exits
+        //socketThread.start();
 
         System.out.println("✅ CricketPro Enterprise started on port 8082");
         System.out.println("✅ Live Score Socket Server started on port 9090");

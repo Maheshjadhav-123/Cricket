@@ -14,7 +14,7 @@ import java.net.Socket;
  * daemon thread (started from TournamentApplication.java).
  *
  * Architecture:
- *   - ServerSocket listens on port 9090
+ *   - ServerSocket listens on port 0
  *   - Each connecting client gets its own LiveScoreClientHandler thread
  *   - All client handlers register themselves with ScoreBroadcaster
  *   - When admin posts an event, ScoreBroadcaster.broadcast() sends
@@ -25,7 +25,7 @@ import java.net.Socket;
 @Component
 public class LiveScoreServer implements Runnable {
 
-    @Value("${cricket.socket.port:9090}")
+    @Value("${cricket.socket.port:0}")
     private int port;
 
     private final ScoreBroadcaster scoreBroadcaster;
